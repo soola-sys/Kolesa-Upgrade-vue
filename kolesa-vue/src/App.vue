@@ -103,23 +103,26 @@
                                     </div>
                                 </div>
                                 <div class="main__goods goods">
-                                    <div class="goods__item">
+                                    <div class="goods__item"
+                                     >
                                         <input class="goods__input"
                                         id="radio-1" type="radio"
-                                        name="radio" value="1" checked>
+                                        name="radio" value="Все товары"
+                                        v-model="selected"
+                                        checked>
                                         <label data-id="all"
                                         class="goods__label category-label js-category"
                                          for="radio-1">Все товары</label>
                                     </div>
-
                                     <div class="goods__item">
                                         <input  class="goods__input"
                                          id="radio-2"
                                          type="radio"
                                          name="radio"
-                                          value="2">
+                                          v-model="selected"
+                                          value="Одежда">
                                         <label  data-id="cloth"
-                                        class="goods__label category-label js-category"
+                                         class="goods__label category-label js-category"
                                         for="radio-2">Одежда</label>
                                     </div>
 
@@ -127,14 +130,76 @@
                                         <input  class="goods__input"
                                         id="radio-3"
                                         type="radio"
-                                        name="radio" value="3">
+                                        v-model="selected"
+                                        name="radio"
+                                        value="Аксессуары">
                                         <label  data-id="accessories"
                                         class="goods__label category-label js-category"
                                          for="radio-3">Аксессуары</label>
                                     </div>
                                 </div>
-                                <div class="main-сatalog catalog js-catalog">
+                                <div v-show="selected === 'Все товары'"
+                                 class="main-сatalog catalog js-catalog">
                                      <div v-for="shirt in mergedProducts"
+                                          :key = shirt.id class="catalog__item shirt"
+                                          >
+                                        <div
+                                        class="catalog__image" >
+                                            <img :src="getImgUrl(shirt.img)"
+                                            width="330" height="330">
+                                            <span v-if="shirt.isNew"
+                                            class="catalog__badge badge">new</span>
+                                        </div>
+                                        <div class="catalog__description">
+                                        <div class="catalog__price">
+                                            {{shirt.price}}
+                                        </div>
+                                        <h3 class="catalog__title">
+                                            {{shirt.title}}
+                                        </h3>
+                                        <p v-if="shirt.size"
+                                         class="catalog__size">{{shirt.size}}</p>
+                                        <button
+                                        class="button catalog__button catalog__button_blue"
+                                        @click="openModal"
+                                        >
+                                          Заказать</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-show="selected === 'Одежда'"
+                                class="main-сatalog catalog js-catalog">
+                                     <div v-for="shirt in sortedClothes"
+                                          :key= shirt.id
+                                          class="catalog__item shirt"
+                                          >
+                                        <div
+                                        class="catalog__image" >
+                                            <img :src="getImgUrl(shirt.img)"
+                                            width="330" height="330">
+                                            <span v-if="shirt.isNew"
+                                            class="catalog__badge badge">new</span>
+                                        </div>
+                                        <div class="catalog__description">
+                                        <div class="catalog__price">
+                                            {{shirt.price}}
+                                        </div>
+                                        <h3 class="catalog__title">
+                                            {{shirt.title}}
+                                        </h3>
+                                        <p v-if="shirt.size"
+                                        class="catalog__size">{{shirt.size}}</p>
+                                        <button
+                                        class="button catalog__button catalog__button_blue"
+                                        @click="openModal"
+                                        >
+                                          Заказать</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-show="selected === 'Аксессуары'"
+                                class="main-сatalog catalog js-catalog">
+                                     <div v-for="shirt in sortedAccessories"
                                           :key= shirt.id class="catalog__item shirt"
                                           >
                                         <div
@@ -151,7 +216,9 @@
                                         <h3 class="catalog__title">
                                             {{shirt.title}}
                                         </h3>
-                                        <p class="catalog__size">Размеры S/M/L </p>
+                                        <p
+                                        v-if="shirt.size"
+                                        class="catalog__size">{{shirt.size}}</p>
                                         <button
                                         class="button catalog__button catalog__button_blue"
                                         @click="openModal"
@@ -383,6 +450,7 @@ export default {
   name: 'App',
   data() {
     return {
+      selected: 'Все товары',
       isShowModal: false,
       clothes: [
         {
@@ -391,6 +459,7 @@ export default {
           price: 350,
           isNew: true,
           img: 'hoodie.png',
+          size: 'Размеры S/M/L',
         },
         {
           id: 1,
@@ -398,6 +467,7 @@ export default {
           price: 50,
           isNew: true,
           img: 'shirt.png',
+          size: 'Размеры S/M/L',
         },
         {
           id: 2,
@@ -405,6 +475,7 @@ export default {
           price: 1000,
           isNew: true,
           img: 'hoodie.png',
+          size: 'Размеры S/M/L',
         },
         {
           id: 3,
@@ -412,6 +483,15 @@ export default {
           price: 220,
           isNew: false,
           img: 'shirt.png',
+          size: 'Размеры S/M/L',
+        },
+        {
+          id: 4,
+          title: 'Класная футболка',
+          price: 700,
+          isNew: true,
+          img: 'shirt.png',
+          size: 'Размеры S/M/L',
         },
       ],
       accessories: [
@@ -476,7 +556,13 @@ export default {
   },
   computed: {
     mergedProducts() {
-      return [...this.clothes, ...this.accessories];
+      return [...this.clothes, ...this.accessories].sort((item) => (item.isNew ? -1 : 1));
+    },
+    sortedClothes() {
+      return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
+    },
+    sortedAccessories() {
+      return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
     },
   },
   methods: {
