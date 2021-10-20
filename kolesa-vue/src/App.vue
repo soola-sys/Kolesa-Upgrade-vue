@@ -134,112 +134,28 @@
                                     </div>
                                 </div>
                                 <div class="main-сatalog catalog js-catalog">
-                                    <div class="catalog__item shirt">
-                                        <div class="catalog__image">
-                                            <img src="./assets/shirt.png"
-                                             alt="Shirt" width="330" height="330">
-                                            <span class="catalog__badge">new</span>
+                                     <div v-for="shirt in mergedProducts"
+                                          :key= shirt.id class="catalog__item shirt"
+                                          >
+                                        <div
+                                        class="catalog__image" >
+                                            <img :src="getImgUrl(shirt.img)"
+                                            width="330" height="330">
+                                            <span v-if="shirt.isNew"
+                                            class="catalog__badge badge">new</span>
                                         </div>
                                         <div class="catalog__description">
                                         <div class="catalog__price">
-                                            220 баллов
+                                            {{shirt.price}}
                                         </div>
                                         <h3 class="catalog__title">
-                                            Футболка "Эволюционируй или cдохни
+                                            {{shirt.title}}
                                         </h3>
                                         <p class="catalog__size">Размеры S/M/L </p>
                                         <button
-                                        class="button catalog__button catalog__button_blue">
-                                        Заказать</button>
-                                        </div>
-                                    </div>
-                                    <div class="catalog__item shirt">
-                                        <div class="catalog__image">
-                                            <img src="./assets/shirt.png"
-                                            alt="Shirt" width="330" height="330">
-                                            <span class="catalog__badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            220 баллов
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            Футболка "Эволюционируй или cдохни
-                                        </h3>
-                                        <p class="catalog__size">Размеры S/M/L </p>
-                                        <button class="button catalog__button catalog__button_blue">
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                    <div class="catalog__item">
-                                        <div class="catalog__image">
-                                            <img src="./assets/shirt.png"
-                                            alt="Shirt" width="330" height="330">
-                                            <span class="catalog__badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            220 баллов
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            Футболка "Эволюционируй или cдохни
-                                        </h3>
-                                        <p class="catalog__size">Размеры S/M/L </p>
-                                        <button class="button catalog__button catalog__button_blue">
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                    <div class="catalog__item">
-                                        <div class="catalog__image">
-                                            <img src="./assets/shirt.png"
-                                            alt="Shirt" width="330" height="330">
-                                            <span class="catalog__badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            220 баллов
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            Футболка "Эволюционируй или cдохни
-                                        </h3>
-                                        <p class="catalog__size">Размеры S/M/L </p>
-                                        <button class="button catalog__button catalog__button_blue">
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                    <div class="catalog__item">
-                                        <div class="catalog__image">
-                                            <img src="./assets/shirt.png"
-                                            alt="Shirt" width="330" height="330">
-                                            <span class="catalog__badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            220 баллов
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            Футболка "Эволюционируй или cдохни
-                                        </h3>
-                                        <p class="catalog__size">Размеры S/M/L </p>
-                                        <button class="button catalog__button catalog__button_blue">
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                     <div class="catalog__item">
-                                        <div class="catalog__image">
-                                            <img src="./assets/shirt.png"
-                                            alt="Shirt" width="330" height="330">
-                                            <span class="catalog__badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            220 баллов
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            Футболка "Эволюционируй или cдохни
-                                        </h3>
-                                        <p class="catalog__size">Размеры S/M/L </p>
-                                        <button class="button catalog__button catalog__button_blue">
+                                        class="button catalog__button catalog__button_blue"
+                                        @click="openModal"
+                                        >
                                           Заказать</button>
                                         </div>
                                     </div>
@@ -287,7 +203,8 @@
                                 </div>
                             </div>
                     </footer>
-                    <div class="modal">
+                    <div v-if="isShowModal"
+                    class="modal">
                         <div class="modal__wrapper">
                             <div class="modal__outer">
                                 <div class="modal-container">
@@ -452,7 +369,7 @@
                                     </div>
                                 </div>
                                 <div class="modal__flag"></div>
-                                <div class="modal__icon">
+                                <div class="modal__icon" @click="closeModal">
                                     <button class="modal__button">&times;</button>
                                 </div>
                             </div>
@@ -466,9 +383,115 @@ export default {
   name: 'App',
   data() {
     return {
-      mes: 'Hello view',
+      isShowModal: false,
+      clothes: [
+        {
+          id: 0,
+          title: 'Классный худи',
+          price: 350,
+          isNew: true,
+          img: 'hoodie.png',
+        },
+        {
+          id: 1,
+          title: 'Класная футболка',
+          price: 50,
+          isNew: true,
+          img: 'shirt.png',
+        },
+        {
+          id: 2,
+          title: 'Классный худи',
+          price: 1000,
+          isNew: true,
+          img: 'hoodie.png',
+        },
+        {
+          id: 3,
+          title: 'Класная футболка',
+          price: 220,
+          isNew: false,
+          img: 'shirt.png',
+        },
+      ],
+      accessories: [
+        {
+          id: 6,
+          title: 'Класная бутылка',
+          price: 100,
+          isNew: true,
+          img: 'bottle.png',
+          details: 'Что то',
+        },
+        {
+          id: 7,
+          title: 'Класная бутылка',
+          price: 100,
+          isNew: false,
+          img: 'bottle.png',
+          details: 'Что то',
+        },
+        {
+          id: 8,
+          title: 'Класные очки',
+          price: 600,
+          isNew: true,
+          img: 'ray.jpg',
+          details: 'Что то',
+        },
+        {
+          id: 9,
+          title: 'Класный рюкзак',
+          price: 550,
+          isNew: true,
+          img: 'tommy.jpg',
+          details: 'Что то',
+        },
+        {
+          id: 10,
+          title: 'Класные очки',
+          price: 600,
+          isNew: false,
+          img: 'ray.jpg',
+          details: 'Что то',
+        },
+        {
+          id: 11,
+          title: 'Класный рюкзак',
+          price: 550,
+          isNew: false,
+          img: 'tommy.jpg',
+          details: 'Что то',
+        },
+        {
+          id: 12,
+          title: 'Класный рюкзак',
+          price: 600,
+          isNew: false,
+          img: 'tommy.jpg',
+          details: 'Что то',
+        },
+      ],
     };
   },
+  computed: {
+    mergedProducts() {
+      return [...this.clothes, ...this.accessories];
+    },
+  },
+  methods: {
+    openModal() {
+      this.isShowModal = true;
+    },
+    closeModal() {
+      this.isShowModal = false;
+    },
+    getImgUrl(item) {
+      // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
+      return require(`./assets/${item}`);
+    },
+  },
+
 };
 </script>
 
