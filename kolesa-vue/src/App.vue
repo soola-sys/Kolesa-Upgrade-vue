@@ -26,7 +26,8 @@
                                              class="user__image" width="44" height="44">
                                              <div class="user__wrapper">
                                                 <p class="user__title">Мортиджан</p>
-                                                <span class="user__subtitle">300 баллов</span>
+                                                <span class="user__subtitle">
+                                                  {{score}} баллов</span>
                                             </div>
                                          </button>
                                      </div>
@@ -138,8 +139,7 @@
                                          for="radio-3">Аксессуары</label>
                                     </div>
                                 </div>
-                                <div v-show="selected === 'Все товары'"
-                                 class="main-сatalog catalog js-catalog">
+                                <div class="main-сatalog catalog js-catalog">
                                      <div v-for="shirt in mergedProducts"
                                           :key = shirt.id class="catalog__item shirt"
                                           >
@@ -161,67 +161,7 @@
                                          class="catalog__size">{{shirt.size}}</p>
                                         <button
                                         class="button catalog__button catalog__button_blue"
-                                        @click="openModal"
-                                        >
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-show="selected === 'Одежда'"
-                                class="main-сatalog catalog js-catalog">
-                                     <div v-for="shirt in sortedClothes"
-                                          :key= shirt.id
-                                          class="catalog__item shirt"
-                                          >
-                                        <div
-                                        class="catalog__image" >
-                                            <img :src="getImgUrl(shirt.img)"
-                                            width="330" height="330">
-                                            <span v-if="shirt.isNew"
-                                            class="catalog__badge badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            {{shirt.price}}
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            {{shirt.title}}
-                                        </h3>
-                                        <p v-if="shirt.size"
-                                        class="catalog__size">{{shirt.size}}</p>
-                                        <button
-                                        class="button catalog__button catalog__button_blue"
-                                        @click="openModal"
-                                        >
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-show="selected === 'Аксессуары'"
-                                class="main-сatalog catalog js-catalog">
-                                     <div v-for="shirt in sortedAccessories"
-                                          :key= shirt.id class="catalog__item shirt"
-                                          >
-                                        <div
-                                        class="catalog__image" >
-                                            <img :src="getImgUrl(shirt.img)"
-                                            width="330" height="330">
-                                            <span v-if="shirt.isNew"
-                                            class="catalog__badge badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            {{shirt.price}}
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            {{shirt.title}}
-                                        </h3>
-                                        <p
-                                        v-if="shirt.size"
-                                        class="catalog__size">{{shirt.size}}</p>
-                                        <button
-                                        class="button catalog__button catalog__button_blue"
-                                        @click="openModal"
+                                        @click='openCard(shirt)'
                                         >
                                           Заказать</button>
                                         </div>
@@ -270,188 +210,27 @@
                                 </div>
                             </div>
                     </footer>
-                    <div v-if="isShowModal"
-                    class="modal">
-                        <div class="modal__wrapper">
-                            <div class="modal__outer">
-                                <div class="modal-container">
-                                    <div class="modal__inner inner">
-                                        <div class="inner__image">
-                                            <img
-                                                src="./assets/hoodie.png"
-                                                alt="Hoodie"
-                                                class="inner__image_big"
-                                                width="330"
-                                                height="330"
-                                            />
-                                        </div>
-                                        <div class="inner__mini">
-                                            <button type="button"><img
-                                                src="./assets/white.png"
-                                                alt="White hoodie"
-                                                class="inner__image_small"
-                                                width="50"
-                                                height="50"
-                                            /></button>
-                                           <button type="button"><img
-                                            src="./assets/blue.png"
-                                            alt="Blue"
-                                            class="inner__image_small"
-                                            width="50"
-                                            height="50"
-                                        /></button>
-                                            <button type="button"><img
-                                                src="./assets/gray.png"
-                                                alt="Gray"
-                                                class="inner__image_small"
-                                                width="50"
-                                                height="50"
-                                            /></button>
-                                        </div>
-                                    </div>
-                                    <div class="modal__content content">
-                                        <h3 class="content__title">
-                                            Футболка "Эволюционируй или сдохни"
-                                        </h3>
-                                        <div class="content__wrapper">
-                                            <div class="content__points">
-                                                <p class="content__text">100 баллов</p>
-                                                <button
-                                                class="button content__button
-                                                content__button_yellow"
-                                                type="button">
-                                                    Попросить 50 баллов
-                                                </button>
-                                            </div>
-                                            <div class="content__balance balance">
-                                                <div class="balance__description">
-                                                    <p class="balance__title">Твой баланс:</p>
-                                                    <span class="balance__subtitle"
-                                                        >3 945 баллов</span
-                                                    >
-                                                </div>
-                                                <div class="balance__image"></div>
-                                            </div>
-                                        </div>
-                                        <div class="product-color">
-                                            <div class="product-color__wrapper">
-                                                <p class="product-color__title">Цвета:</p>
-                                                <div class="product-color__color color">
-                                                    <div class="color__item">
-                                                        <div class="color__image"></div>
-                                                        <div class="color__radio">
-                                                            <input
-                                                            id="radio-1"
-                                                            type="radio"
-                                                            name="radio"
-                                                            value="1"
-                                                            class="color__input"
-                                                        />
-                                                        <label class="color__label"
-                                                        for="radio-1">Синий</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="color__item">
-                                                        <div class="color__image"></div>
-                                                        <div class="color__radio">
-                                                            <input
-                                                                id="radio-2"
-                                                                type="radio"
-                                                                name="radio"
-                                                                value="2"
-                                                                class="color__input"
-                                                            />
-                                                            <label class="color__label"
-                                                            for="radio-2">Синий</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-size">
-                                                    <p class="product-size__title">Размер:</p>
-                                                    <div class="product-size__options options">
-                                                        <div class="options__radio">
-                                                            <input
-                                                                id="radio-4"
-                                                                type="radio"
-                                                                name="radio"
-                                                                value="4"
-                                                                class="options__input"
-                                                            />
-                                                            <label class="options__label"
-                                                            for="radio-4">S</label>
-                                                        </div>
-                                                        <div class="options__radio">
-                                                            <input
-                                                                id="radio-5"
-                                                                type="radio"
-                                                                name="radio"
-                                                                value="5"
-                                                                class="options__input"
-                                                            />
-                                                            <label class="options__label"
-                                                            for="radio-5">M</label>
-                                                        </div>
-                                                        <div class="options__radio">
-                                                            <input
-                                                                id="radio-6"
-                                                                type="radio"
-                                                                name="radio"
-                                                                value="6"
-                                                                class="options__input"
-                                                            />
-                                                            <label class= "options__label"
-                                                             for="radio-6">L</label>
-                                                        </div>
-                                                        <div class="options__radio">
-                                                            <input
-                                                                id="radio-6"
-                                                                type="radio"
-                                                                name="radio"
-                                                                value="6"
-                                                                class="options__input"
-                                                            />
-                                                            <label class= "options__label"
-                                                             for="radio-6">L</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-info">
-                                            <div class="product-info__item">
-                                                <p class="product-info__title title">Детали:</p>
-                                                <span class="product-info__subtitle js-details"
-                                                    >Брендированная толстовка от Qazaq Republic.
-                                                    Материал: Хлопок 80%, Вискоза 20%</span
-                                                >
-                                            </div>
-                                            <div class="product-info__item">
-                                                <p class="product-info__title title">
-                                                  Как выбрать размер:</p>
-                                                <span class="product-info__write"
-                                                    >Написать дяде Рику для уточнения.</span
-                                                >
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal__flag"></div>
-                                <div class="modal__icon" @click="closeModal">
-                                    <button class="modal__button">&times;</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  <modal-card :data="modalData"
+                   :is-open="isShowModal"
+                    @close="closeModal"
+                    @order ="setScore"
+                    ></modal-card>
             </div>
 </template>
 <script>
+import ModalCard from '@/components/Modal.vue';
 
 export default {
   name: 'App',
+  components: {
+    ModalCard,
+  },
   data() {
     return {
       selected: 'Все товары',
       isShowModal: false,
+      modalData: {},
+      score: 500,
       clothes: [
         {
           id: 0,
@@ -566,22 +345,32 @@ export default {
     },
   },
   methods: {
+    openCard(data) {
+      this.openModal();
+      this.modalData = data;
+    },
     openModal() {
       this.isShowModal = true;
     },
     closeModal() {
       this.isShowModal = false;
     },
+    setScore(price) {
+      this.closeModal();
+      if (price > this.score) {
+        alert('Баллов не хватает');
+      } else {
+        this.score -= price;
+      }
+    },
     getImgUrl(item) {
       // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
       return require(`./assets/${item}`);
     },
   },
-
 };
 </script>
 
 <style lang="scss">
 @import './scss/style.scss';
-
 </style>
