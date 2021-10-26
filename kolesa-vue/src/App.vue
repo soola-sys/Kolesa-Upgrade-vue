@@ -1,236 +1,80 @@
 <template>
   <div class="wrapper">
-                <div class="container">
-                    <header class="header">
-                            <div class="header__wrapper">
-                                <div class="header__logo">
-                                    <a href="https://job.kolesa.kz/">
-                                    <img src="./assets/kolesa.svg"
-                                    alt="Kolesa Group"
-                                    width="216"
-                                    height="35">
-                                    </a>
-                                </div>
-                                <div class="header__inner">
-                                    <div class="header__search search">
-                                        <button type="button" class="search__button">
-                                               <img src="./assets/lupa.svg"
-                                               alt="Lupa" width="18" height="18">
-                                        </button>
-                                        <input type="input" class="search__input input"
-                                        placeholder="Поиск" name="search" >
-                                     </div>
-                                     <div class="header__user user">
-                                         <button class="user__button" type="button">
-                                             <img src="./assets/user.png" alt="User"
-                                             class="user__image" width="44" height="44">
-                                             <div class="user__wrapper">
-                                                <p class="user__title">Мортиджан</p>
-                                                <span class="user__subtitle">
-                                                  {{score}} баллов</span>
-                                            </div>
-                                         </button>
-                                     </div>
-                                </div>
-                            </div>
-                    </header>
-                        <main class="main">
-                                <aside class="main__aside">
-                                    <nav class="aside__menu menu">
-                                        <ul class="menu__list">
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Оргсхема
-                                            </li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Kolesa Team
-                                              </li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Kolesa Shop
-                                              </li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Картина компании
-                                              </li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Новости
-                                              </li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Education</li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Guidelines</li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              Библиотека</li>
-                                            <li class="menu__item">
-                                              <a href="#" class="menu__item"></a>
-                                              FAQ</li>
-                                        </ul>
-                                    </nav>
-                                </aside>
-                                <div class="main__products">
-                                    <div class="main__promo">
-                                        <img src="./assets/banner.png"
-                                        alt="Sale"
-                                        width="1038"
-                                        height="335">
-                                    </div>
-                                <div class="main__hotbuttons hotbuttons">
-                                     <div>
-                                        <button type="button" class="hotbuttons__button">
-                                            <div class="hotbuttons__item hotbuttons_green">
-                                                <p class="hotbuttons__title">Получить баллы</p>
-                                            </div>
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <button type="button" class="hotbuttons__button">
-                                            <div class="hotbuttons__item hotbuttons_yellow">
-                                                <p class="score-title">Получить баллы</p>
-                                            </div>
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <button type="button" class="hotbuttons__button">
-                                            <div class="hotbuttons__item hotbuttons_blue">
-                                                <p class="score-title">Получить баллы</p>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="main__goods goods">
-                                    <div class="goods__item"
-                                     >
-                                        <input class="goods__input"
-                                        id="radio-1" type="radio"
-                                        name="radio" value="Все товары"
-                                        v-model="selected"
-                                        checked>
-                                        <label data-id="all"
-                                        class="goods__label category-label js-category"
-                                         for="radio-1">Все товары</label>
-                                    </div>
-                                    <div class="goods__item">
-                                        <input  class="goods__input"
-                                         id="radio-2"
-                                         type="radio"
-                                         name="radio"
-                                          v-model="selected"
-                                          value="Одежда">
-                                        <label  data-id="cloth"
-                                         class="goods__label category-label js-category"
-                                        for="radio-2">Одежда</label>
-                                    </div>
-
-                                    <div class="goods__item">
-                                        <input  class="goods__input"
-                                        id="radio-3"
-                                        type="radio"
-                                        v-model="selected"
-                                        name="radio"
-                                        value="Аксессуары">
-                                        <label  data-id="accessories"
-                                        class="goods__label category-label js-category"
-                                         for="radio-3">Аксессуары</label>
-                                    </div>
-                                </div>
-                                <div class="main-сatalog catalog js-catalog">
-                                     <div v-for="shirt in mergedProducts"
-                                          :key = shirt.id class="catalog__item shirt"
-                                          >
-                                        <div
-                                        class="catalog__image" >
-                                            <img :src="getImgUrl(shirt.img)"
-                                            width="330" height="330">
-                                            <span v-if="shirt.isNew"
-                                            class="catalog__badge badge">new</span>
-                                        </div>
-                                        <div class="catalog__description">
-                                        <div class="catalog__price">
-                                            {{shirt.price}}
-                                        </div>
-                                        <h3 class="catalog__title">
-                                            {{shirt.title}}
-                                        </h3>
-                                        <p v-if="shirt.size"
-                                         class="catalog__size">{{shirt.size}}</p>
-                                        <button
-                                        class="button catalog__button catalog__button_blue"
-                                        @click='openCard(shirt)'
-                                        >
-                                          Заказать</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                        </main>
-                    </div>
-                    <footer class="footer">
-                            <div class="footer-container container">
-                                <div class="footer__inner">
-                                    <div class="footer__social social">
-                                        <div class="social__title">© Kolesa Group</div>
-                                        <div >
-                                            <a href="https://www.instagram.com"
-                                            class="social__link">
-                                            <img src="./assets/instagram.svg"
-                                             alt="Instagram" width="20" height="20"></a>
-                                            <a href="https://www.youtube.com"
-                                            class="social__link">
-                                            <img src="./assets/youtube.svg"
-                                            alt="Youtube" width="20" height="20">
-                                            </a>
-                                            <a href="https://vk.com" class="social__link">
-                                            <img src="./assets/vk.svg"
-                                            alt="Vkontakte" width="20" height="20">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="footer__contact contact">
-                                        <div class="contact__text">
-                                            <div class="contact__idea">
-                                             <span>
-                                                 Есть идеи что улучшить?
-                                                 Не знаешь, с кем решить проблему?
-                                            </span>
-                                            </div>
-                                            <div class="contact__item">
-                                                <button
-                                                class="contact__button_white
-                                                contact__button button">
-                                                  Написать</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </footer>
-                  <modal-card :data="modalData"
-                   :is-open="isShowModal"
-                    @close="closeModal"
-                    @order ="setScore"
-                    ></modal-card>
-            </div>
+    <div class="container">
+      <header class="header">
+        <div class="header__wrapper">
+          <div class="header__logo">
+            <a href="https://job.kolesa.kz/">
+              <img
+                src="./assets/kolesa.svg"
+                alt="Kolesa Group"
+                width="216"
+                height="35"
+              />
+            </a>
+          </div>
+          <div class="header__inner">
+            <search></search>
+            <user :balance="score"></user>
+          </div>
+        </div>
+      </header>
+      <main class="main">
+        <aside class="main__aside">
+          <nav-menu></nav-menu>
+        </aside>
+        <div class="main__products">
+          <div class="main__promo">
+            <img
+              src="./assets/banner.png"
+              alt="Sale"
+              width="1038"
+              height="335"
+            />
+          </div>
+          <hot-button></hot-button>
+          <goods-label></goods-label>
+          <catalog :products="mergedProducts" @openCard="openCard"></catalog>
+        </div>
+      </main>
+    </div>
+    <footer-card></footer-card>
+    <modal-card
+      :data="modalData"
+      :is-open="isShowModal"
+      @close="closeModal"
+      @order="setScore"
+    ></modal-card>
+  </div>
 </template>
 <script>
 import ModalCard from '@/components/Modal.vue';
+import Search from '@/components/Search.vue';
+import FooterCard from '@/components/Footer.vue';
+import NavMenu from '@/components/NavMenu.vue';
+import HotButton from '@/components/Hotbutton.vue';
+import GoodsLabel from './components/Goods.vue';
+import User from './components/User.vue';
+import Catalog from './components/Catalog.vue';
 
 export default {
   name: 'App',
   components: {
     ModalCard,
+    Search,
+    FooterCard,
+    NavMenu,
+    HotButton,
+    GoodsLabel,
+    User,
+    Catalog,
   },
   data() {
     return {
-      selected: 'Все товары',
       isShowModal: false,
       modalData: {},
       score: 500,
+      search: 'Sultan',
       clothes: [
         {
           id: 0,
@@ -363,6 +207,9 @@ export default {
         this.score -= price;
       }
     },
+    setSearch(e) {
+      this.search = e.target.value;
+    },
     getImgUrl(item) {
       // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
       return require(`./assets/${item}`);
@@ -372,5 +219,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './scss/style.scss';
+@import "./scss/style.scss";
 </style>
