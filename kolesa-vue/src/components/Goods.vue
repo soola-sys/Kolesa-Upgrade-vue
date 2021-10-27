@@ -1,50 +1,24 @@
 <template>
   <div class="main__goods goods">
-    <div class="goods__item">
+    <div
+      class="goods__item"
+      v-for="item in items"
+      :key="item.id"
+      @click="$emit('change', item.id)"
+    >
       <input
         class="goods__input"
-        id="radio-1"
+        :id="item.id"
         type="radio"
         name="radio"
-        value="Все товары"
-        checked
+        :value="item.value"
+        :checked="item.id === currentKey"
       />
       <label
         data-id="all"
         class="goods__label category-label js-category"
         for="radio-1"
-        >Все товары</label
-      >
-    </div>
-    <div class="goods__item">
-      <input
-        class="goods__input"
-        id="radio-2"
-        type="radio"
-        name="radio"
-        value="Одежда"
-      />
-      <label
-        data-id="cloth"
-        class="goods__label category-label js-category"
-        for="radio-2"
-        >Одежда</label
-      >
-    </div>
-
-    <div class="goods__item">
-      <input
-        class="goods__input"
-        id="radio-3"
-        type="radio"
-        name="radio"
-        value="Аксессуары"
-      />
-      <label
-        data-id="accessories"
-        class="goods__label category-label js-category"
-        for="radio-3"
-        >Аксессуары</label
+        >{{ item.name }}</label
       >
     </div>
   </div>
@@ -52,6 +26,14 @@
 <script>
 export default {
   name: 'Goods',
+  props: {
+    items: Array,
+    currentKey: String,
+  },
+  model: {
+    prop: 'currentKey',
+    event: 'change',
+  },
   data() {
     return {};
   },

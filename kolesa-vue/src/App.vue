@@ -33,8 +33,8 @@
             />
           </div>
           <hot-button></hot-button>
-          <goods-label></goods-label>
-          <catalog :products="mergedProducts" @openCard="openCard"></catalog>
+          <goods-label :items="tabs" v-model="selected"></goods-label>
+          <catalog :products="filterProducts" @openCard="openCard"></catalog>
         </div>
       </main>
     </div>
@@ -44,6 +44,7 @@
       :is-open="isShowModal"
       @close="closeModal"
       @order="setScore"
+      :cost="score"
     ></modal-card>
   </div>
 </template>
@@ -75,6 +76,21 @@ export default {
       modalData: {},
       score: 500,
       search: 'Sultan',
+      selected: 'all',
+      tabs: [
+        {
+          name: 'Все товары',
+          id: 'all',
+        },
+        {
+          name: 'Одежда',
+          id: 'clothes',
+        },
+        {
+          name: 'Аксессуары',
+          id: 'accessories',
+        },
+      ],
       clothes: [
         {
           id: 0,
@@ -181,12 +197,21 @@ export default {
     mergedProducts() {
       return [...this.clothes, ...this.accessories].sort((item) => (item.isNew ? -1 : 1));
     },
-    sortedClothes() {
-      return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
+    filterProducts() {
+      if (this.selected === 'clothes') {
+        return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
+      }
+      if (this.selected === 'accessories') {
+        return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
+      }
+      return this.mergedProducts;
     },
-    sortedAccessories() {
-      return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
-    },
+    // sortedClothes() {
+    //   return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
+    // },
+    // sortedAccessories() {
+    //   return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
+    // },
   },
   methods: {
     openCard(data) {
