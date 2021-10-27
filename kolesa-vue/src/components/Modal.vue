@@ -6,41 +6,29 @@
           <div class="modal__inner inner">
             <div class="inner__image">
               <img
-                :src="getImgUrl(data.img)"
+                :src="data.mainImage"
                 alt="Hoodie"
                 class="inner__image_big"
                 width="330"
                 height="330"
               />
             </div>
-            <div class="inner__mini">
-              <button type="button">
-                <img
-                  src="@/assets/white.png"
-                  alt="White hoodie"
-                  class="inner__image_small"
-                  width="50"
-                  height="50"
-                />
-              </button>
-              <button type="button">
-                <img
-                  src="@/assets/blue.png"
-                  alt="Blue"
-                  class="inner__image_small"
-                  width="50"
-                  height="50"
-                />
-              </button>
-              <button type="button">
-                <img
-                  src="@/assets/gray.png"
-                  alt="Gray"
-                  class="inner__image_small"
-                  width="50"
-                  height="50"
-                />
-              </button>
+            <div class="additional__images">
+              <div
+                v-for="item in data.images"
+                :key="item.id"
+                class="inner__mini"
+              >
+                <button type="button">
+                  <img
+                    :src="item"
+                    alt="White hoodie"
+                    class="inner__image_small"
+                    width="50"
+                    height="50"
+                  />
+                </button>
+              </div>
             </div>
           </div>
           <div class="modal__content content">
@@ -70,75 +58,47 @@
               <div class="product-color__wrapper">
                 <p class="product-color__title">Цвета:</p>
                 <div class="product-color__color color">
-                  <div class="color__item">
-                    <div class="color__image"></div>
+                  <div
+                    v-for="item in data.colors"
+                    :key="item.id"
+                    class="color__item"
+                  >
+                    <div
+                      :style="{ background: item.color }"
+                      class="color__image"
+                    ></div>
                     <div class="color__radio">
                       <input
-                        id="radio-1"
+                        :id="data.id"
                         type="radio"
                         name="radio"
                         value="1"
                         class="color__input"
                       />
-                      <label class="color__label" for="radio-1">Синий</label>
-                    </div>
-                  </div>
-                  <div class="color__item">
-                    <div class="color__image"></div>
-                    <div class="color__radio">
-                      <input
-                        id="radio-2"
-                        type="radio"
-                        name="radio"
-                        value="2"
-                        class="color__input"
-                      />
-                      <label class="color__label" for="radio-2">Синий</label>
+                      <label class="color__label" for="radio-1">{{
+                        item.label
+                      }}</label>
                     </div>
                   </div>
                 </div>
                 <div class="product-size">
                   <p class="product-size__title">Размер:</p>
                   <div class="product-size__options options">
-                    <div class="options__radio">
+                    <div
+                      v-for="item in data.sizes"
+                      :key="item.id"
+                      class="options__radio"
+                    >
                       <input
-                        id="radio-4"
+                        :id="data.id"
                         type="radio"
                         name="radio"
                         value="4"
                         class="options__input"
                       />
-                      <label class="options__label" for="radio-4">S</label>
-                    </div>
-                    <div class="options__radio">
-                      <input
-                        id="radio-5"
-                        type="radio"
-                        name="radio"
-                        value="5"
-                        class="options__input"
-                      />
-                      <label class="options__label" for="radio-5">M</label>
-                    </div>
-                    <div class="options__radio">
-                      <input
-                        id="radio-6"
-                        type="radio"
-                        name="radio"
-                        value="6"
-                        class="options__input"
-                      />
-                      <label class="options__label" for="radio-6">L</label>
-                    </div>
-                    <div class="options__radio">
-                      <input
-                        id="radio-6"
-                        type="radio"
-                        name="radio"
-                        value="6"
-                        class="options__input"
-                      />
-                      <label class="options__label" for="radio-6">L</label>
+                      <label class="options__label" for="radio-4">{{
+                        item
+                      }}</label>
                     </div>
                   </div>
                 </div>
@@ -148,14 +108,12 @@
               <div class="product-info__item">
                 <p class="product-info__title title">Детали:</p>
                 <span class="product-info__subtitle js-details">{{
-                  data.details
+                  data.description
                 }}</span>
               </div>
               <div class="product-info__item">
                 <p class="product-info__title title">Как выбрать размер:</p>
-                <span class="product-info__write"
-                  >Написать дяде Рику для уточнения.</span
-                >
+                <span class="product-info__write">Никак</span>
               </div>
             </div>
           </div>
@@ -171,7 +129,7 @@
 <script>
 const PERCENT = 1.1;
 export default {
-  name: 'Modal',
+  name: "Modal",
   props: {
     isOpen: Boolean,
     data: Object,
@@ -179,7 +137,7 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit('close');
+      this.$emit("close");
     },
     getImgUrl(item) {
       // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
@@ -187,7 +145,7 @@ export default {
     },
     order() {
       const result = this.data.price * PERCENT;
-      this.$emit('order', result);
+      this.$emit("order", result);
     },
   },
 };

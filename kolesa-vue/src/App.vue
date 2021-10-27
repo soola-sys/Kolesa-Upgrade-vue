@@ -15,7 +15,7 @@
           </div>
           <div class="header__inner">
             <search></search>
-            <user :balance="score"></user>
+            <user :balance="user" @userData="changeData"></user>
           </div>
         </div>
       </header>
@@ -49,17 +49,18 @@
   </div>
 </template>
 <script>
-import ModalCard from '@/components/Modal.vue';
-import Search from '@/components/Search.vue';
-import FooterCard from '@/components/Footer.vue';
-import NavMenu from '@/components/NavMenu.vue';
-import HotButton from '@/components/Hotbutton.vue';
-import GoodsLabel from './components/Goods.vue';
-import User from './components/User.vue';
-import Catalog from './components/Catalog.vue';
+import ModalCard from "@/components/Modal.vue";
+import Search from "@/components/Search.vue";
+import FooterCard from "@/components/Footer.vue";
+import NavMenu from "@/components/NavMenu.vue";
+import HotButton from "@/components/Hotbutton.vue";
+import GoodsLabel from "./components/Goods.vue";
+import User from "./components/User.vue";
+import Catalog from "./components/Catalog.vue";
+import axios from "@/axios";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     ModalCard,
     Search,
@@ -74,134 +75,38 @@ export default {
     return {
       isShowModal: false,
       modalData: {},
-      score: 500,
-      search: 'Sultan',
-      selected: 'all',
+      search: "Sultan",
+      selected: "all",
+      userName: "",
       tabs: [
         {
-          name: 'Все товары',
-          id: 'all',
+          name: "Все товары",
+          id: "all",
         },
         {
-          name: 'Одежда',
-          id: 'clothes',
+          name: "Одежда",
+          id: "clothes",
         },
         {
-          name: 'Аксессуары',
-          id: 'accessories',
+          name: "Аксессуары",
+          id: "accessories",
         },
       ],
-      clothes: [
-        {
-          id: 0,
-          title: 'Классный худи',
-          price: 350,
-          isNew: true,
-          img: 'hoodie.png',
-          size: 'Размеры S/M/L',
-        },
-        {
-          id: 1,
-          title: 'Класная футболка',
-          price: 50,
-          isNew: true,
-          img: 'shirt.png',
-          size: 'Размеры S/M/L',
-        },
-        {
-          id: 2,
-          title: 'Классный худи',
-          price: 1000,
-          isNew: true,
-          img: 'hoodie.png',
-          size: 'Размеры S/M/L',
-        },
-        {
-          id: 3,
-          title: 'Класная футболка',
-          price: 220,
-          isNew: false,
-          img: 'shirt.png',
-          size: 'Размеры S/M/L',
-        },
-        {
-          id: 4,
-          title: 'Класная футболка',
-          price: 700,
-          isNew: true,
-          img: 'shirt.png',
-          size: 'Размеры S/M/L',
-        },
-      ],
-      accessories: [
-        {
-          id: 6,
-          title: 'Класная бутылка',
-          price: 100,
-          isNew: true,
-          img: 'bottle.png',
-          details: 'Что то',
-        },
-        {
-          id: 7,
-          title: 'Класная бутылка',
-          price: 100,
-          isNew: false,
-          img: 'bottle.png',
-          details: 'Что то',
-        },
-        {
-          id: 8,
-          title: 'Класные очки',
-          price: 600,
-          isNew: true,
-          img: 'ray.jpg',
-          details: 'Что то',
-        },
-        {
-          id: 9,
-          title: 'Класный рюкзак',
-          price: 550,
-          isNew: true,
-          img: 'tommy.jpg',
-          details: 'Что то',
-        },
-        {
-          id: 10,
-          title: 'Класные очки',
-          price: 600,
-          isNew: false,
-          img: 'ray.jpg',
-          details: 'Что то',
-        },
-        {
-          id: 11,
-          title: 'Класный рюкзак',
-          price: 550,
-          isNew: false,
-          img: 'tommy.jpg',
-          details: 'Что то',
-        },
-        {
-          id: 12,
-          title: 'Класный рюкзак',
-          price: 600,
-          isNew: false,
-          img: 'tommy.jpg',
-          details: 'Что то',
-        },
-      ],
+      clothes: [],
+      accessories: [],
     };
   },
   computed: {
     mergedProducts() {
-      return [...this.clothes, ...this.accessories].sort((item) => (item.isNew ? -1 : 1));
+      return [...this.clothes, ...this.accessories].sort((item) =>
+        item.isNew ? -1 : 1
+      );
     },
     filterProducts() {
-      if (this.selected === 'clothes') {
+      if (this.selected === "clothes") {
         return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
       }
-      if (this.selected === 'accessories') {
+      if (this.selected === "accessories") {
         return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
       }
       return this.mergedProducts;
@@ -212,6 +117,14 @@ export default {
     // sortedAccessories() {
     //   return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
     // },
+  },
+  mounted() {
+    axios.get("templates/-_RLsEGjof6i/data").then((response) => {
+      this.clothes = response.data;
+    });
+    axios.get("templates/q3OPxRyEcPvP/data").then((res) => {
+      this.accessories = res.data;
+    });
   },
   methods: {
     openCard(data) {
@@ -227,7 +140,7 @@ export default {
     setScore(price) {
       this.closeModal();
       if (price > this.score) {
-        alert('Баллов не хватает');
+        alert("Баллов не хватает");
       } else {
         this.score -= price;
       }
@@ -235,9 +148,8 @@ export default {
     setSearch(e) {
       this.search = e.target.value;
     },
-    getImgUrl(item) {
-      // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
-      return require(`./assets/${item}`);
+    changeData(user) {
+      this.user = user;
     },
   },
 };
