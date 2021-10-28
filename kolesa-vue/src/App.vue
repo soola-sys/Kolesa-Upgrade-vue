@@ -15,7 +15,7 @@
           </div>
           <div class="header__inner">
             <search></search>
-            <user :balance="user" @userData="changeData"></user>
+            <user :user="user" @userData="changeData"></user>
           </div>
         </div>
       </header>
@@ -75,9 +75,12 @@ export default {
     return {
       isShowModal: false,
       modalData: {},
-      search: "Sultan",
+      search: "adadaw",
       selected: "all",
-      userName: "",
+      user: {
+        name: "Hello",
+        score: 100,
+      },
       tabs: [
         {
           name: "Все товары",
@@ -139,10 +142,10 @@ export default {
     },
     setScore(price) {
       this.closeModal();
-      if (price > this.score) {
+      if (price > this.user.score) {
         alert("Баллов не хватает");
       } else {
-        this.score -= price;
+        this.user.score -= price;
       }
     },
     setSearch(e) {

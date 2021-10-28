@@ -20,17 +20,11 @@ import axios from '../axios';
 
 export default {
   props: {
-    balance: Object,
+    user: Object,
   },
   name: 'User',
   data() {
-    return {
-      user: {
-        name: '',
-        score: 0,
-        avatarUrl: '',
-      },
-    };
+    return {};
   },
   mounted() {
     axios.get('templates/7ZW3y5GAuIge/data').then((response) => {
