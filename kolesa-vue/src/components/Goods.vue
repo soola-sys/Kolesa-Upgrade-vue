@@ -14,12 +14,9 @@
         :value="item.value"
         :checked="item.id === currentKey"
       />
-      <label
-        data-id="all"
-        class="goods__label category-label js-category"
-        for="radio-1"
-        >{{ item.name }}</label
-      >
+      <label class="goods__label category-label js-category" :for="item.id">{{
+        item.name
+      }}</label>
     </div>
   </div>
 </template>
@@ -33,9 +30,6 @@ export default {
   model: {
     prop: 'currentKey',
     event: 'change',
-  },
-  data() {
-    return {};
   },
 };
 </script>

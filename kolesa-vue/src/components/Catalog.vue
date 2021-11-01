@@ -35,9 +35,5 @@ export default {
   props: {
     products: Array,
   },
-  data() {
-    return {};
-  },
-  methods: {},
 };
 </script>

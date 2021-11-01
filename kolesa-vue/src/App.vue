@@ -43,24 +43,24 @@
       :data="modalData"
       :is-open="isShowModal"
       @close="closeModal"
-      @order="setScore"
-      :cost="score"
+      @order="handleOrder"
+      :cost="user.score"
     ></modal-card>
   </div>
 </template>
 <script>
-import ModalCard from "@/components/Modal.vue";
-import Search from "@/components/Search.vue";
-import FooterCard from "@/components/Footer.vue";
-import NavMenu from "@/components/NavMenu.vue";
-import HotButton from "@/components/Hotbutton.vue";
-import GoodsLabel from "./components/Goods.vue";
-import User from "./components/User.vue";
-import Catalog from "./components/Catalog.vue";
-import axios from "@/axios";
+import ModalCard from '@/components/Modal.vue';
+import Search from '@/components/Search.vue';
+import FooterCard from '@/components/Footer.vue';
+import NavMenu from '@/components/NavMenu.vue';
+import HotButton from '@/components/Hotbutton.vue';
+import GoodsLabel from './components/Goods.vue';
+import User from './components/User.vue';
+import Catalog from './components/Catalog.vue';
+import axios from '@/axios';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     ModalCard,
     Search,
@@ -75,24 +75,23 @@ export default {
     return {
       isShowModal: false,
       modalData: {},
-      search: "adadaw",
-      selected: "all",
+      search: 'adadaw',
+      selected: 'all',
       user: {
-        name: "Hello",
-        score: 100,
+        score: 0,
       },
       tabs: [
         {
-          name: "Все товары",
-          id: "all",
+          name: 'Все товары',
+          id: 'all',
         },
         {
-          name: "Одежда",
-          id: "clothes",
+          name: 'Одежда',
+          id: 'clothes',
         },
         {
-          name: "Аксессуары",
-          id: "accessories",
+          name: 'Аксессуары',
+          id: 'accessories',
         },
       ],
       clothes: [],
@@ -101,15 +100,13 @@ export default {
   },
   computed: {
     mergedProducts() {
-      return [...this.clothes, ...this.accessories].sort((item) =>
-        item.isNew ? -1 : 1
-      );
+      return [...this.clothes, ...this.accessories].sort((item) => (item.isNew ? -1 : 1));
     },
     filterProducts() {
-      if (this.selected === "clothes") {
+      if (this.selected === 'clothes') {
         return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
       }
-      if (this.selected === "accessories") {
+      if (this.selected === 'accessories') {
         return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
       }
       return this.mergedProducts;
@@ -122,10 +119,10 @@ export default {
     // },
   },
   mounted() {
-    axios.get("templates/-_RLsEGjof6i/data").then((response) => {
+    axios.get('templates/-_RLsEGjof6i/data').then((response) => {
       this.clothes = response.data;
     });
-    axios.get("templates/q3OPxRyEcPvP/data").then((res) => {
+    axios.get('templates/q3OPxRyEcPvP/data').then((res) => {
       this.accessories = res.data;
     });
   },
@@ -140,15 +137,15 @@ export default {
     closeModal() {
       this.isShowModal = false;
     },
-    setScore(price) {
+    handleOrder(price) {
       this.closeModal();
       if (price > this.user.score) {
-        alert("Баллов не хватает");
+        alert('Баллов не хватает');
       } else {
         this.user.score -= price;
       }
     },
-    setSearch(e) {
+    updateUserData(e) {
       this.search = e.target.value;
     },
     changeData(user) {

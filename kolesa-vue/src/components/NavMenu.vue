@@ -43,8 +43,5 @@
 <script>
 export default {
   name: 'NavMenu',
-  data() {
-    return {};
-  },
 };
 </script>

@@ -190,7 +190,7 @@
     &__input {
         display: none;
 
-        &:checked + &__label {
+        &:checked + label {
             background: #d6ecfb;
             color: $black;
             border: none;

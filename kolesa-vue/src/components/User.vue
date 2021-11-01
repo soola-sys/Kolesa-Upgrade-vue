@@ -23,13 +23,9 @@ export default {
     user: Object,
   },
   name: 'User',
-  data() {
-    return {};
-  },
   mounted() {
     axios.get('templates/7ZW3y5GAuIge/data').then((response) => {
-      this.user = response.data;
-      this.$emit('userData', this.user);
+      this.$emit('userData', response.data);
     });
   },
 };
