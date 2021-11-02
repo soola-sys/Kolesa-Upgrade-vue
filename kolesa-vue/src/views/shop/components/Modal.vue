@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import optionsData from '@/components/Options.vue';
+import optionsData from './Options.vue';
 
 export default {
   name: 'Modal',
@@ -105,7 +105,6 @@ export default {
     changeLabel(data) {
       this.color = data.colors;
       this.sizes = data.sizes;
-      console.log(data);
     },
     closeModal() {
       this.$emit('close');
