@@ -2,31 +2,39 @@
   <div class="header__user user">
     <button class="user__button" type="button">
       <img
-        :src="user.avatarUrl"
+        :src="userInfo.avatarUrl"
         alt="User"
         class="user__image"
         width="44"
         height="44"
       />
       <div class="user__wrapper">
-        <p class="user__title">{{ user.name }}</p>
-        <span class="user__subtitle"> {{ user.score }} баллов</span>
+        <p class="user__title">{{ userInfo.name }}</p>
+        <span class="user__subtitle"> {{ score }}</span>
       </div>
     </button>
   </div>
 </template>
 <script>
-import axios from '@/axios';
+import { mapState } from 'vuex';
 
 export default {
-  props: {
-    user: Object,
-  },
   name: 'User',
+  computed: {
+    ...mapState({
+      userInfo: 'userInfo',
+    }),
+    score() {
+      return this.userInfo.score ? `${this.userInfo.score} баллов` : '';
+    },
+  },
   mounted() {
-    axios.get('templates/7ZW3y5GAuIge/data').then((response) => {
-      this.$emit('userData', response.data);
-    });
+    this.userData();
+  },
+  methods: {
+    userData() {
+      this.$store.dispatch('updateUserData');
+    },
   },
 };
 </script>

@@ -49,7 +49,7 @@
               <div class="content__balance balance">
                 <div class="balance__description">
                   <p class="balance__title">Твой баланс:</p>
-                  <span class="balance__subtitle">{{ cost }} баллов</span>
+                  <span class="balance__subtitle">{{ data.score }} баллов</span>
                 </div>
                 <div class="balance__image"></div>
               </div>
@@ -82,23 +82,23 @@
   </div>
 </template>
 <script>
-import optionsData from './Options.vue';
+import optionsData from "./Options.vue";
 
 export default {
-  name: 'Modal',
+  name: "Modal",
   components: {
     optionsData,
   },
   props: {
     isOpen: Boolean,
     data: Object,
-    cost: Number,
+    cost: Object,
   },
   data() {
     return {
       color: [],
       sizes: [],
-      selectedSize: 'X',
+      selectedSize: "X",
     };
   },
   methods: {
@@ -107,14 +107,20 @@ export default {
       this.sizes = data.sizes;
     },
     closeModal() {
-      this.$emit('close');
+      this.$emit("close");
     },
     getImgUrl(item) {
       // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
       return require(`@/assets/${item}`);
     },
     order() {
-      this.$emit('order', this.data.price);
+      const { score } = this.$store.state.userInfo;
+      if (score - this.data.price <= 0) {
+        alert("У вас недостаточно баллов");
+        return;
+      }
+      this.closeModal();
+      this.$store.commit("setNewScore", this.data.price);
     },
   },
 };

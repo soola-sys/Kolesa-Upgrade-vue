@@ -10,8 +10,6 @@
       :data="modalData"
       :is-open="isShowModal"
       @close="closeModal"
-      :cost="user.score"
-      @order="handleOrder"
     ></modal-card>
   </div>
 </template>
@@ -20,15 +18,9 @@ import ModalCard from './components/Modal.vue';
 import HotButton from './components/Hotbutton.vue';
 import GoodsLabel from './components/Goods.vue';
 import Catalog from './components/Catalog.vue';
-import axios from '@/axios';
 
 export default {
   name: 'ShopPage',
-  props: {
-    user: Object,
-    search: String,
-    costModal: Number,
-  },
   components: {
     ModalCard,
     HotButton,
@@ -54,34 +46,36 @@ export default {
           id: 'accessories',
         },
       ],
-      clothes: [],
-      accessories: [],
     };
   },
   computed: {
     mergedProducts() {
-      return [...this.clothes, ...this.accessories].sort((item) => (item.isNew ? -1 : 1));
+      return [
+        ...this.$store.state.clothes,
+        ...this.$store.state.accessories,
+      ].sort((item) => (item.isNew ? -1 : 1));
     },
     filterProducts() {
       if (this.selected === 'clothes') {
-        return [...this.clothes].sort((item) => (item.isNew ? -1 : 1));
+        return [...this.$store.state.clothes].sort((item) => (item.isNew ? -1 : 1));
       }
       if (this.selected === 'accessories') {
-        return [...this.accessories].sort((item) => (item.isNew ? -1 : 1));
+        return [...this.$store.state.accessories].sort((item) => (item.isNew ? -1 : 1));
       }
       return this.mergedProducts;
     },
   },
-
   mounted() {
-    axios.get('templates/-_RLsEGjof6i/data').then((response) => {
-      this.clothes = response.data;
-    });
-    axios.get('templates/q3OPxRyEcPvP/data').then((res) => {
-      this.accessories = res.data;
-    });
+    this.fetchClothes();
+    this.fetchAccessories();
   },
   methods: {
+    fetchClothes() {
+      this.$store.dispatch('fetchClothesData');
+    },
+    fetchAccessories() {
+      this.$store.dispatch('fetchAccessoriesData');
+    },
     openCard(data) {
       this.openModal();
       this.modalData = data;
@@ -91,14 +85,6 @@ export default {
     },
     closeModal() {
       this.isShowModal = false;
-    },
-    handleOrder(price) {
-      this.closeModal();
-      if (price > this.user.score) {
-        alert('Баллов не хватает');
-      } else {
-        this.user.score -= price;
-      }
     },
   },
 };

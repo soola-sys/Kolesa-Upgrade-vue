@@ -28,7 +28,6 @@
           @changeData="changeData"
           :search="search"
           :user="user"
-          :costModal="user.score"
         ></router-view>
       </main>
     </div>
@@ -54,17 +53,15 @@ export default {
       search: 'adadaw',
       user: {
         score: 0,
+        name: '',
+        avatarUrl: '',
       },
     };
   },
   methods: {
     handleOrder(price) {
       this.closeModal();
-      if (price > this.user.score) {
-        alert('Баллов не хватает');
-      } else {
-        this.user.score -= price;
-      }
+      this.user.score -= price;
     },
     updateUserData(e) {
       this.search = e.target.value;
