@@ -49,20 +49,20 @@ export default {
     };
   },
   computed: {
-    mergedProducts() {
-      return [
-        ...this.$store.state.clothes,
-        ...this.$store.state.accessories,
-      ].sort((item) => (item.isNew ? -1 : 1));
-    },
     filterProducts() {
-      if (this.selected === 'clothes') {
-        return [...this.$store.state.clothes].sort((item) => (item.isNew ? -1 : 1));
+      let showSelectedProduct = [];
+      if (this.selected === 'all') {
+        showSelectedProduct = [
+          ...this.$store.state.clothes,
+          ...this.$store.state.accessories,
+        ];
+      } else if (this.selected === 'clothes') {
+        showSelectedProduct = [...this.$store.state.clothes];
+      } else {
+        showSelectedProduct = [...this.$store.state.accessories];
       }
-      if (this.selected === 'accessories') {
-        return [...this.$store.state.accessories].sort((item) => (item.isNew ? -1 : 1));
-      }
-      return this.mergedProducts;
+      showSelectedProduct.sort((item) => (item.isNew ? -1 : 1));
+      return showSelectedProduct;
     },
   },
   mounted() {

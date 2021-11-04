@@ -49,7 +49,9 @@
               <div class="content__balance balance">
                 <div class="balance__description">
                   <p class="balance__title">Твой баланс:</p>
-                  <span class="balance__subtitle">{{ data.score }} баллов</span>
+                  <span class="balance__subtitle"
+                    >{{ this.$store.state.userInfo.score }} баллов</span
+                  >
                 </div>
                 <div class="balance__image"></div>
               </div>
@@ -92,7 +94,6 @@ export default {
   props: {
     isOpen: Boolean,
     data: Object,
-    cost: Object,
   },
   data() {
     return {
@@ -108,10 +109,6 @@ export default {
     },
     closeModal() {
       this.$emit("close");
-    },
-    getImgUrl(item) {
-      // eslint-disable-next-line global-require,import/no-dynamic-require,import/extensions
-      return require(`@/assets/${item}`);
     },
     order() {
       const { score } = this.$store.state.userInfo;

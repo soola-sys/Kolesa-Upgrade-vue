@@ -15,7 +15,7 @@
           </div>
           <div class="header__inner">
             <search></search>
-            <user :user="user" @userData="changeData"></user>
+            <user @userData="changeData"></user>
           </div>
         </div>
       </header>
@@ -27,7 +27,6 @@
           @updateUserData="updateUserData"
           @changeData="changeData"
           :search="search"
-          :user="user"
         ></router-view>
       </main>
     </div>
@@ -51,11 +50,6 @@ export default {
   data() {
     return {
       search: 'adadaw',
-      user: {
-        score: 0,
-        name: '',
-        avatarUrl: '',
-      },
     };
   },
   methods: {
