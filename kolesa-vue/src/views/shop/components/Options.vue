@@ -12,7 +12,7 @@
               name="radio"
               :value="unit"
               class="color__input"
-              :checked="unit === optionKey"
+              :checked="unit.id === colors"
             />
             <label class="color__label" :for="unit.id">{{ unit.label }}</label>
           </div>
@@ -44,6 +44,11 @@
 <script>
 export default {
   name: 'Options',
+  data() {
+    return {
+      colors: [{ label: 'какой то цвет', color: '#000000' }],
+    };
+  },
   props: {
     colorData: Array,
     sizeData: Array,

@@ -4,9 +4,8 @@
 .main {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items:flex-start;
     flex: 1 1 auto;
-
     &__aside {
         margin-right: 131px;
     }

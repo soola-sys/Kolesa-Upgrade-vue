@@ -8,7 +8,11 @@
       </button>
     </div>
     <div>
-      <button type="button" class="hotbuttons__button">
+      <button
+        @click="$router.push('/shop/score')"
+        type="button"
+        class="hotbuttons__button"
+      >
         <div class="hotbuttons__item hotbuttons_yellow">
           <p class="score-title">Получить баллы</p>
         </div>
